@@ -12,6 +12,11 @@
 fn main() {
     let original_price = 51;
     println!("Your sale price is {}", sale_price(original_price));
+    if is_even(original_price){
+        println!("The original price is even!");
+    } else {
+        println!("The original price is odd!");
+    }
 }
 
 fn sale_price(price: i32) -> i32 {
