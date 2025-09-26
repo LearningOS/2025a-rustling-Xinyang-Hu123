@@ -27,21 +27,23 @@ mod tests {
 
     #[test]
     fn correct_width_and_height() {
-        // This test should check if the rectangle is the size that we pass into its constructor
+        // 这个测试检查矩形宽高是否正确
         let rect = Rectangle::new(10, 20);
-        assert_eq!(rect.width, 10); // check width
-        assert_eq!(rect.height, 20); // check height
+        assert_eq!(rect.width, 10); 
+        assert_eq!(rect.height, 20); 
     }
 
     #[test]
+    #[should_panic(expected = "Rectangle width and height cannot be negative!")]
     fn negative_width() {
-        // This test should check if program panics when we try to create rectangle with negative width
+        // 这个测试检查负宽度是否触发 panic
         let _rect = Rectangle::new(-10, 10);
     }
 
     #[test]
+    #[should_panic(expected = "Rectangle width and height cannot be negative!")]
     fn negative_height() {
-        // This test should check if program panics when we try to create rectangle with negative height
+        // 这个测试检查负高度是否触发 panic
         let _rect = Rectangle::new(10, -10);
     }
 }
