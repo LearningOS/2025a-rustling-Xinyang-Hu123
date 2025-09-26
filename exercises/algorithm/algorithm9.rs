@@ -76,7 +76,7 @@ where
 
 impl<T> Iterator for Heap<T>
 where
-    T: Default,
+    T: Default + Clone,
 {
     type Item = T;
 
@@ -84,22 +84,30 @@ where
         if self.is_empty() {
             return None;
         }
-        let root = self.items[1].default(); // placeholder
-        let result = std::mem::replace(&mut self.items[1], self.items[self.count].default());
-        self.items.pop();
+
+        // 保存根节点
+        let result = self.items[1].clone();
+
+        // 用最后一个元素替换根节点
+        let last = self.items.pop().unwrap();
         self.count -= 1;
 
-        // heapify down
-        let mut idx = 1;
-        while self.has_child(idx) {
-            let child_idx = self.highest_priority_child(idx);
-            if (self.comparator)(&self.items[child_idx], &self.items[idx]) {
-                self.items.swap(idx, child_idx);
-                idx = child_idx;
-            } else {
-                break;
+        if !self.is_empty() {
+            self.items[1] = last;
+
+            // heapify down
+            let mut idx = 1;
+            while self.has_child(idx) {
+                let child_idx = self.highest_priority_child(idx);
+                if (self.comparator)(&self.items[child_idx], &self.items[idx]) {
+                    self.items.swap(idx, child_idx);
+                    idx = child_idx;
+                } else {
+                    break;
+                }
             }
         }
+
         Some(result)
     }
 }
